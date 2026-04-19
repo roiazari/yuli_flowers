@@ -23,7 +23,7 @@ const sans = Heebo({
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-  "https://yuliflowers.co.il";
+  "https://yuli-flowers.vercel.app";
 
 const brandName = content.brand?.name ?? "פרחי יולי";
 const brandTagline =

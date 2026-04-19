@@ -3,7 +3,7 @@ import content from "@/content.json";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-  "https://yuliflowers.co.il";
+  "https://yuli-flowers.vercel.app";
 
 /**
  * Single-page site with anchor-based sections. We still list the section
