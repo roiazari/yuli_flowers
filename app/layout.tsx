@@ -31,10 +31,13 @@ const brandTagline =
 const aboutDescription =
   content.about?.description ?? brandTagline;
 
-// A rich, high-quality hero image for share previews. Using a site-local
-// WebP keeps the asset versioned with the codebase; Next/Image's metadata
-// pipeline understands absolute URLs built from `metadataBase`.
-const OG_IMAGE = "/images/flowers1.webp";
+// Brand logo used as the social-share preview (WhatsApp, Facebook, LinkedIn,
+// Twitter/X, iMessage). Keeping the logo here makes the brand instantly
+// recognizable in link cards; dimensions below match the actual asset so
+// the platforms can render it without stretching.
+const OG_IMAGE = "/images/logo.webp";
+const OG_IMAGE_WIDTH = 512;
+const OG_IMAGE_HEIGHT = 512;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -86,15 +89,17 @@ export const metadata: Metadata = {
     images: [
       {
         url: OG_IMAGE,
-        width: 1200,
-        height: 630,
+        width: OG_IMAGE_WIDTH,
+        height: OG_IMAGE_HEIGHT,
         alt: `${brandName} — ${brandTagline}`,
         type: "image/webp",
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
+    // `summary` (square) suits a logo preview better than `summary_large_image`
+    // which expects a 2:1 hero shot and would leave large letterbox bars.
+    card: "summary",
     title: brandName,
     description: brandTagline,
     images: [OG_IMAGE],
