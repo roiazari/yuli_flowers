@@ -1,26 +1,162 @@
 @import "tailwindcss";
 
+/* === Brand Tokens (2026 "Bohemian × Sculptural Minimalism") ===
+   Exposed to Tailwind v4 via @theme so `bg-brand-sand`, `text-brand-teal` etc. all work.
+*/
+@theme {
+  --color-brand-sand: #f0f0ef;     /* Cloud Dancer — base surface */
+  --color-brand-dark: #2d2d2d;     /* Deep Grey — text */
+  --color-brand-teal: #005f69;     /* Monsoon Teal — primary / CTA */
+  --color-brand-gold: #d4af37;     /* Sun-forged Gold — secondary */
+  --color-brand-butter: #f3e5ab;   /* Butter Yellow — accent */
+  --color-brand-sage: #8a9a5b;     /* Meadow Sage — muted / borders */
+
+  --font-serif: var(--font-serif-display, "Frank Ruhl Libre"), "Cormorant Garamond",
+    ui-serif, Georgia, serif;
+  --font-sans: var(--font-sans-body, "Heebo"), "Assistant", ui-sans-serif,
+    system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --background: var(--color-brand-sand);
+  --foreground: var(--color-brand-dark);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Serif utility for headings */
+.font-serif {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+/* RTL-aware small helpers */
+[dir="rtl"] .flip-x {
+  transform: scaleX(-1);
+}
+
+/* Soft hand-drawn underline used in some CTAs */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 350ms ease;
+}
+.link-underline:hover {
+  background-size: 100% 1px;
+}
+
+/* Selection color on-brand */
+::selection {
+  background: #005f69;
+  color: #f3e5ab;
+}
+
+/* ============================================================
+   Accessibility menu runtime classes (toggled by AccessibilityMenu)
+============================================================ */
+.acc-readable-font,
+.acc-readable-font body {
+  font-family: "Arial", "Heebo", sans-serif !important;
+  letter-spacing: 0.01em;
+}
+
+.acc-underline-links a {
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+}
+
+.acc-highlight-links a {
+  outline: 2px solid #005f69;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.acc-reduce-motion *,
+.acc-reduce-motion *::before,
+.acc-reduce-motion *::after {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  transition-duration: 0s !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ============================================================
+   Global button cursor — every interactive control feels clickable.
+============================================================ */
+button,
+[role="button"],
+summary,
+label[for],
+select {
+  cursor: pointer;
+}
+button:disabled,
+[role="button"][aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   Mobile: center-align all section/footer/modal copy.
+   Form fields keep their natural right-alignment (RTL) so typing
+   remains comfortable.
+============================================================ */
+@media (max-width: 767px) {
+  section,
+  footer,
+  [role="dialog"] {
+    text-align: center;
+  }
+
+  /* Flex/grid children that place themselves explicitly shouldn't
+     be fighting text-align — but headings, paragraphs, list items,
+     and inline content inherit nicely. */
+  section input,
+  section textarea,
+  section select,
+  footer input,
+  footer textarea,
+  footer select,
+  [role="dialog"] input,
+  [role="dialog"] textarea {
+    text-align: right;
+  }
+
+  /* Items-start chips / pills that were pinned to the right edge
+     should recenter instead of floating off-axis. */
+  section .w-fit,
+  footer .w-fit,
+  [role="dialog"] .w-fit {
+    margin-inline: auto;
+  }
 }
